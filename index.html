@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execução Financeira SR/CE - Firebase</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <h1>📊 Execução Financeira SR/CE</h1>
+        <p class="subtitle">Controle de Contratos • Firebase</p>
+
+        
+      <!-- Substitua no seu HTML o <form id="loginForm"> inteiro (dentro de .login-box) por este: -->
+
+<form id="loginForm" autocomplete="off" onsubmit="fazerLogin(event)">
+    <div class="form-group">
+        <label for="username">👤 Usuário</label>
+        <input type="text" id="username" placeholder="Digite seu usuário" required autofocus autocomplete="off">
+    </div>
+    <div class="form-group">
+        <label for="password">🔒 Senha</label>
+        <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Digite sua senha" required autocomplete="off">
+            <button type="button" class="toggle-password" onclick="toggleSenha(this)" title="Mostrar/Ocultar senha">👁️</button>
+        </div>
+    </div>
+
+    <!-- type="submit" e SEM onclick: clique e Enter passam pelo onsubmit do form -->
+    <button type="submit" class="btn-login" id="btnLogin">🔐 Entrar</button>
+
+    <div class="error" id="loginError">❌ Usuário ou senha inválidos!</div>
+</form>
+
+<!-- Nada mais muda no HTML. -->
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="container" id="appContainer" style="display:none;">
+    <div class="header">
+        <div class="header-content">
+            <h1>📊 Execução Financeira - SR/CE</h1>
+            <p>Contratos de Manutenção, BR Legal, PROARTE e Supervisão</p>
+        </div>
+        <div class="user-info">
+            <span>👤 <span id="usuarioNome">-</span></span>
+            <button class="logout-btn" onclick="fazerLogout()">Sair</button>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-save" onclick="salvarTodos()" id="btnSalvar">💾 Salvar no Firebase</button>
+        <button class="btn btn-edit" onclick="ativarModoEdicao()" id="btnEditar">✏️ Modo Edição</button>
+        <button class="btn btn-add" onclick="abrirModalAdicionar()">➕ Adicionar Contrato</button>
+        <button class="btn btn-import" onclick="abrirModalUpload()">📁 Importar Planilha</button>
+        <button class="btn btn-reset" onclick="resetarDados()">🔄 Resetar Dados</button>
+        <button class="btn btn-reset" onclick="esvaziarDados()">🧹 Apagar Todos os Contratos</button>
+        <button class="btn btn-clear" onclick="limparFiltros()">🗑️ Limpar Filtros</button>
+    </div>
+
+    <div class="total-selecionado" id="totalSelecionado">
+        <span>💰 Carregando...</span>
+    </div>
+
+    <div class="ul-cards-grid" id="ulCardsGrid"></div>
+
+    <div class="filtros">
+        <div class="filtro-group">
+            <label>🏢 Filtrar Contratada:</label>
+            <select id="filtroContratada" onchange="aplicarFiltros()">
+                <option value="todas">Todas as Empresas</option>
+            </select>
+        </div>
+        <div class="filtro-group">
+            <label>📋 Situação:</label>
+            <select id="filtroSituacao" onchange="aplicarFiltros()">
+                <option value="todas">Todas</option>
+                <option value="Ativo">Ativo</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Aguardando">Aguardando</option>
+                <option value="Cancelado">Cancelado</option>
+            </select>
+        </div>
+        <div class="filtro-group">
+            <label>🛣️ BR:</label>
+            <select id="filtroBR" onchange="aplicarFiltros()">
+                <option value="todas">Todas</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="edit-hint" style="display:flex; justify-content:space-between; align-items:center;">
+        <span>✏️ <strong>Modo Edição:</strong> clique em "Modo Edição" para liberar os campos. Campos em <strong>amarelo</strong> são editáveis.</span>
+        <button class="btn btn-reset" style="padding: 5px 15px; font-size: 12px;" onclick="excluirSelecionados()" id="btnExcluirSelecionados" disabled>🗑️ Excluir Selecionados (0)</button>
+    </div>
+
+    <div class="tabela-wrapper">
+        <table id="tabelaContratos">
+            <thead>
+                <tr>
+                    <th style="width: 30px;"><input type="checkbox" id="checkAll" onclick="toggleTodosCheckbox()"></th>
+                    <th>UL</th>
+                    <th>Contrato</th>
+                    <th>BR</th>
+                    <th>Serviço</th>
+                    <th>Contratada</th>
+                    <th>Situação</th>
+                    <th>Vigência</th>
+                    <th>Últ. Med. Lançada</th>
+                    <th>Mês Últ. Med. Lançada</th>
+                    <th>Últ. Med. Paga</th>
+                    <th>Mês Últ. Med. Paga</th>
+                    <th style="background:#2c7a30;">Saldo Empenho</th>
+                    <th>RAP</th>
+                    <th>LOA</th>
+                    <th>Remanej (-)</th>
+                    <th>Remanej (+)</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaContratosBody"></tbody>
+        </table>
+    </div>
+
+    <h3 style="color:#4496CB; margin-bottom:12px; font-size:16px;">📅 Valores Mensais de Contrato (R$) - Editável</h3>
+    <div class="edit-hint" style="background:#e8f4fb; border-left-color:#4496CB; color:#2c5f7a;">
+        💡 Role horizontalmente para ver todos os meses. Valores em <strong>amarelo</strong> são editáveis.
+    </div>
+
+    <div class="mensal-wrapper">
+        <table id="tabelaMensal">
+            <thead><tr id="tabelaMensalHead"></tr></thead>
+            <tbody id="tabelaMensalBody"></tbody>
+        </table>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-box">
+            <b>📋 LEGENDA</b><br><br>
+            <span class="badge badge-ativo">Ativo</span> Contrato em execução<br>
+            <span class="badge badge-concluido">Concluído</span> Contrato finalizado<br>
+            <span class="badge badge-aguardando">Aguardando</span> Pendente de assinatura/empenho<br>
+            <span class="badge badge-cancelado">Cancelado</span> Contrato cancelado
+        </div>
+        <div class="info-box">
+            <b>ℹ️ INFORMAÇÕES</b><br><br>
+            <span>📌 LOA: Lei Orçamentária Anual</span><br>
+            <span>💰 RAP: Restos a Pagar</span><br>
+            <span>☁️ Projeto Firebase: <strong>medicoes-dnit</strong></span><br>
+            <span>📁 Detecção automática de meses (linha 8)</span><br>
+            <span>📅 Colunas ignoradas: AD, AP, AQ</span><br>
+            <span style="color:#4ade80; font-weight:bold;">🛡️ Saldo Empenho: Puxado da Coluna S</span>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CONFIRMAÇÃO -->
+<div class="modal-overlay" id="modalConfirm">
+    <div class="modal-box">
+        <button class="modal-close-btn" onclick="fecharModal()">✕</button>
+        <h2 id="modalTitle">⚠️ Confirmar Exclusão</h2>
+        <p id="modalMessage">Tem certeza que deseja excluir este contrato?</p>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+            <button class="btn-confirm" id="btnConfirmAction">Excluir</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ADICIONAR -->
+<div class="modal-overlay" id="modalAdicionar">
+    <div class="modal-box" style="max-width:600px;">
+        <button class="modal-close-btn" onclick="fecharModalAdicionar()">✕</button>
+        <h2 style="color:#4496CB;">➕ Adicionar Novo Contrato</h2>
+        <p>Preencha os campos abaixo. Os valores mensais podem ser editados depois.</p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">UL *</label>
+                <input id="addUL" type="text" placeholder="Ex: SOBRAL" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Contrato *</label>
+                <input id="addContrato" type="text" placeholder="Ex: 999/2025" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">BR</label>
+                <input id="addBR" type="text" placeholder="Ex: 222" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Serviço</label>
+                <input id="addServico" type="text" placeholder="Ex: Manutenção - PATO" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div style="grid-column: span 2;">
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Contratada</label>
+                <input id="addContratada" type="text" placeholder="Ex: Empresa XYZ Ltda" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Situação</label>
+                <select id="addSituacao" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+                    <option value="Ativo">Ativo</option>
+                    <option value="Concluído">Concluído</option>
+                    <option value="Aguardando">Aguardando</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Vigência</label>
+                <input id="addVigencia" type="text" placeholder="DD/MM/AAAA" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Últ. Med. Lançada</label>
+                <input id="addUltimaMedLancada" type="number" placeholder="Ex: 24" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Mês Últ. Med. Lançada</label>
+                <input id="addMesUltimaMedLancada" type="text" placeholder="Ex: jun/26" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Últ. Med. Paga</label>
+                <input id="addUltimaMedPaga" type="number" placeholder="Ex: 22" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Mês Últ. Med. Paga</label>
+                <input id="addMesUltimaMedPaga" type="text" placeholder="Ex: mai/26" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Saldo Empenho (R$)</label>
+                <input id="addSaldoEmpenho" type="text" placeholder="0,00" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">RAP (R$)</label>
+                <input id="addRap" type="text" placeholder="0,00" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">LOA (R$)</label>
+                <input id="addLoa" type="text" placeholder="0,00" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Remanej (-) (R$)</label>
+                <input id="addRemanejMenos" type="text" placeholder="0,00" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+            <div>
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Remanej (+) (R$)</label>
+                <input id="addRemanejMais" type="text" placeholder="0,00" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;">
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="fecharModalAdicionar()">Cancelar</button>
+            <button class="btn-confirm" style="background:#4496CB;" onclick="confirmarAdicionar()">➕ Adicionar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL UPLOAD XLSX -->
+<div class="modal-overlay" id="modalUpload">
+    <div class="modal-box" style="max-width:800px;">
+        <button class="modal-close-btn" onclick="fecharModalUpload()" title="Fechar (ESC)">✕</button>
+        <h2 style="color:#7c3aed;">📁 Importar Planilha Excel</h2>
+        <p>Faça upload do arquivo <strong>Programação Contratos - Atualizado.xlsx</strong>. O sistema detecta os meses <strong>automaticamente</strong> pela linha 8, a partir da coluna AC.</p>
+
+        <div id="uploadArea" style="border:2px dashed #7c3aed; border-radius:12px; padding:32px; text-align:center; cursor:pointer; background:#faf5ff; transition:all 0.2s;"
+             onclick="document.getElementById('inputFile').click()"
+             ondragover="event.preventDefault(); this.style.background='#ede9fe';"
+             ondragleave="this.style.background='#faf5ff';"
+             ondrop="event.preventDefault(); this.style.background='#faf5ff'; handleDrop(event);">
+            <div style="font-size:48px; margin-bottom:8px;">📁</div>
+            <div style="font-weight:600; color:#7c3aed; font-size:15px;">Clique ou arraste o arquivo .xlsx aqui</div>
+            <div style="font-size:12px; color:#64748b; margin-top:6px;">Formatos aceitos: .xlsx, .xls</div>
+            <input type="file" id="inputFile" accept=".xlsx,.xls" style="display:none;" onchange="handleFileSelect(event)">
+        </div>
+
+        <div id="arquivoInfo" style="margin-top:12px; display:none; padding:12px; background:#e8f5e9; border-radius:8px; font-size:13px; color:#2c7a30; line-height:1.7;"></div>
+
+        <div id="previewUpload" style="margin-top:16px; display:none;">
+            <div style="font-weight:600; color:#1a3a4a; font-size:13px; margin-bottom:8px;">📋 Pré-visualização (primeiras 5 linhas):</div>
+            <div style="overflow-x:auto; max-height:220px; border:1px solid #e2e8f0; border-radius:8px;">
+                <table style="width:100%; font-size:11px; border-collapse:collapse;">
+                    <thead id="previewHead" style="position:sticky; top:0; background:#4496CB; color:white;"></thead>
+                    <tbody id="previewBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="resultadoUpload" style="margin-top:16px; font-size:13px;"></div>
+
+        <div class="modal-actions" style="margin-top:20px; display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
+            <button onclick="fecharModalUpload()" 
+                    style="padding:12px 24px; border:none; border-radius:10px; cursor:pointer; font-weight:600; font-size:14px; background:#e2e8f0; color:#1a3a4a;">
+                ✕ Fechar
+            </button>
+            <button id="btnProcessarUpload" 
+                    onclick="processarUpload()" 
+                    disabled 
+                    style="padding:12px 28px; border:none; border-radius:10px; cursor:pointer; font-weight:700; font-size:15px; background:#94a3b8; color:white; transition: all 0.2s;">
+                ✅ Confirmar Importação
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TROCA DE SENHA OBRIGATÓRIA -->
+<div class="modal-overlay" id="modalTrocaSenha" style="display: none; z-index: 9999;">
+    <div class="modal-box" style="max-width: 400px;">
+        <h2 style="color:#dc3545; text-align:center;">🔒 Primeiro Acesso</h2>
+        <p style="text-align:center; margin-top:10px;">Você está usando a senha genérica. Por segurança, é <strong>obrigatório definir uma nova senha</strong> para continuar.</p>
+        
+        <!-- ⭐ ADICIONADO O FORM AQUI -->
+        <form id="formTrocaSenha" onsubmit="salvarNovaSenha(event); return false;">
+            <input type="text" id="usernameTroca" name="username" autocomplete="username" style="display: none;" readonly>
+            <div style="margin-bottom: 16px; margin-top:20px;">
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Nova Senha *</label>
+                <input type="password" id="novaSenha" placeholder="Digite a nova senha (mín. 6 caracteres)" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;" autocomplete="new-password">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="font-size:12px; font-weight:600; color:#1a3a4a;">Confirme a Nova Senha *</label>
+                <input type="password" id="confirmarSenha" placeholder="Repita a nova senha" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; margin-top:4px;" autocomplete="new-password">
+            </div>
+            
+            <div id="erroTrocaSenha" style="color: #dc3545; font-size: 12px; margin-bottom: 16px; display: none; text-align:center;"></div>
+
+            <div class="modal-actions" style="justify-content: center;">
+                <button type="submit" class="btn-confirm" style="background:#4496CB; width:100%; padding: 12px; font-size: 15px;">Salvar Nova Senha</button>
+            </div>
+        </form>
+        <!-- ⭐ FIM DO FORM -->
+
+    </div>
+</div>
+
+<div class="save-status" id="saveStatus">Salvando...</div>
+<script src="js/script.js"></script>
+</body>
+</html>
