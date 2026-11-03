@@ -124,28 +124,25 @@
             <h2 class="card-title">📋 Contratos</h2>
             <div class="table-wrapper">
                 <table class="tabela-contratos" id="tabelaContratos">
-                    <thead>
-                        <tr>
-                            <th style="width:32px;"><input type="checkbox" id="checkAll" onchange="toggleTodosCheckbox()"></th>
-                            <th>UL</th>
-                            <th>Contrato</th>
-                            <th>BR</th>
-                            <th>Serviço</th>
-                            <th>Contratada</th>
-                            <th>Situação</th>
-                            <th>Vigência</th>
-                            <th>Últ.Lanç</th>
-                            <th>Mês Lanç</th>
-                            <th>Últ.Paga</th>
-                            <th>Mês Paga</th>
-                            <th>Saldo Empenho</th>
-                            <th>RAP</th>
-                            <th>LOA</th>
-                            <th>Remanej (-)</th>
-                            <th>Remanej (+)</th>
-                            <th style="width:80px;">Ações</th>
-                        </tr>
-                    </thead>
+                   <thead>
+    <tr>
+        <th style="width:32px;"><input type="checkbox" id="checkAll" onchange="toggleTodosCheckbox()"></th>
+        <th>UL</th>
+        <th>Contrato</th>
+        <th>BR</th>
+        <th>KM</th> <!-- NOVA COLUNA -->
+        <th>Serviço</th>
+        <th>Contratada</th>
+        <th>Situação</th>
+        <th>Vigência</th>
+        <th>Últ.Lanç</th>
+        <th>Mês Lanç</th>
+        <th>Últ.Paga</th>
+        <th>Mês Paga</th>
+        <th>Saldo Empenho</th>
+        <th style="width:80px;">Ações</th>
+    </tr>
+</thead>
                     <tbody id="tabelaContratosBody"></tbody>
                 </table>
             </div>
@@ -238,30 +235,26 @@
             <button class="modal-close" onclick="fecharModalAdicionar()">✕</button>
         </div>
         <div class="modal-body">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                <div><label>UL *</label><input type="text" id="addUL" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
-                <div><label>Contrato *</label><input type="text" id="addContrato" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
-                <div><label>BR</label><input type="text" id="addBR" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
-                <div><label>Serviço</label><input type="text" id="addServico" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
-                <div style="grid-column:1 / -1;"><label>Contratada</label><input type="text" id="addContratada" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
-                <div>
-                    <label>Situação</label>
-                    <select id="addSituacao" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;">
-                        <option value="Ativo">Ativo</option><option value="Concluído">Concluído</option><option value="Aguardando">Aguardando</option><option value="Cancelado">Cancelado</option>
-                    </select>
-                </div>
-                <div><label>Vigência</label><input type="text" id="addVigencia" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="DD/MM/AAAA"></div>
-                <div><label>Últ. Med. Lançada</label><input type="number" id="addUltimaMedLancada" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" value="0"></div>
-                <div><label>Mês Últ. Med. Lançada</label><input type="text" id="addMesUltimaMedLancada" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="jun/26"></div>
-                <div><label>Últ. Med. Paga</label><input type="number" id="addUltimaMedPaga" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" value="0"></div>
-                <div><label>Mês Últ. Med. Paga</label><input type="text" id="addMesUltimaMedPaga" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="mai/26"></div>
-                <div><label>Saldo Empenho</label><input type="text" id="addSaldoEmpenho" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="0,00"></div>
-                <div><label>RAP</label><input type="text" id="addRap" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="0,00"></div>
-                <div><label>LOA</label><input type="text" id="addLoa" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="0,00"></div>
-                <div><label>Remanej (-)</label><input type="text" id="addRemanejMenos" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="0,00"></div>
-                <div><label>Remanej (+)</label><input type="text" id="addRemanejMais" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="0,00"></div>
-            </div>
-        </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    <div><label>UL *</label><input type="text" id="addUL" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
+    <div><label>Contrato *</label><input type="text" id="addContrato" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
+    <div><label>BR</label><input type="text" id="addBR" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
+    <div><label>KM</label><input type="text" id="addKM" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div> <!-- NOVO -->
+    <div><label>Serviço</label><input type="text" id="addServico" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
+    <div style="grid-column:1 / -1;"><label>Contratada</label><input type="text" id="addContratada" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></div>
+    <div>
+        <label>Situação</label>
+        <select id="addSituacao" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;">
+            <option value="Ativo">Ativo</option><option value="Concluído">Concluído</option><option value="Aguardando">Aguardando</option><option value="Cancelado">Cancelado</option>
+        </select>
+    </div>
+    <div><label>Vigência</label><input type="text" id="addVigencia" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="DD/MM/AAAA"></div>
+    <div><label>Últ. Med. Lançada</label><input type="number" id="addUltimaMedLancada" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" value="0"></div>
+    <div><label>Mês Últ. Med. Lançada</label><input type="text" id="addMesUltimaMedLancada" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="jun/26"></div>
+    <div><label>Últ. Med. Paga</label><input type="number" id="addUltimaMedPaga" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" value="0"></div>
+    <div><label>Mês Últ. Med. Paga</label><input type="text" id="addMesUltimaMedPaga" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="mai/26"></div>
+    <div><label>Saldo Empenho</label><input type="text" id="addSaldoEmpenho" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;" placeholder="0,00"></div>
+</div>
         <div class="modal-footer">
             <button onclick="fecharModalAdicionar()" style="background:#94a3b8;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;">Cancelar</button>
             <button onclick="confirmarAdicionar()" style="background:#2c7a30;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-weight:600;">✅ Adicionar</button>
