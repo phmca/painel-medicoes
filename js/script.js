@@ -30,7 +30,8 @@ const XLSX_CONFIG = {
     colunaServico: 3, colunaContratada: 5, linhaCabecalho: 8, colunaInicioFixa: 28,
     colunasIgnorar: [29, 41, 42], maxColunasVazias: 3, colunaVigencia: 8,
     colunaUltimaMedLancada: 10, colunaMesUltimaMedLancada: 11, colunaUltimaMedPaga: 12,
-    colunaMesUltimaMedPaga: 13, colunaSaldoEmpenho: 18
+    colunaMesUltimaMedPaga: 13, colunaSaldoEmpenho: 18,
+    colunaKM: 2 // <-- NOVA COLUNA: Coluna C (índice 2) do Excel
 };
 
 const XLSX_CONFIG_MEDICOES = {
@@ -39,37 +40,37 @@ const XLSX_CONFIG_MEDICOES = {
 };
 
 const DADOS_BASE = [
-    { id: 'c_397_2024', ul: 'SOBRAL', contrato: '397/2024', br: '222', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 12142259.20, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_347_2024', ul: 'SOBRAL', contrato: '347/2024', br: '222;403', servico: 'Manutenção - PATO', contratada: 'COSAMPA Projetos e Construções', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 10000000, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_404_2023', ul: 'SOBRAL', contrato: '404/2023', br: '222,402,403', servico: 'BR Legal', contratada: 'Consórcio Ceará Via Segura', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 500000, loa: 3964408.90, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_250_2026', ul: 'FORTALEZA', contrato: '250/2026', br: '402;403', servico: 'Manutenção - PATO', contratada: 'Vanguarda Construções e Serviçõs de Conservação Viária LTDA', situacao: 'Ativo', vigencia: '29/09/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_175_2025', ul: 'ICÓ', contrato: '175/2025', br: '116;226', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Ativo', vigencia: '07/09/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_236_2025', ul: 'ICÓ', contrato: '236/2025', br: '116', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Concluído', vigencia: '05/10/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_235_2025', ul: 'ICÓ', contrato: '235/2025', br: '230', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '06/10/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_039_2026', ul: 'ICÓ', contrato: '039/2026', br: '116', servico: 'Obra de Emergência', contratada: 'FFX Engenharia e Serviços LTDA', situacao: 'Ativo', vigencia: '24/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_424_2023', ul: 'ICÓ', contrato: '424/2023', br: '116;226;230', servico: 'BR Legal', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 500000, loa: 3230000, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_688_2022', ul: 'FORTALEZA', contrato: '688/2022', br: '116', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '04/07/2024', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 10436917.37, loa: 15000000, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_505_2024', ul: 'FORTALEZA', contrato: '505/2024', br: '020', servico: 'Manutenção - PATO', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Aguardando', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 5000000, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_092_2024', ul: 'FORTALEZA', contrato: '092/2024', br: '222', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 17400000, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_124_2026', ul: 'FORTALEZA', contrato: '124/2026', br: '122', servico: '', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '25/08/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_240_2024', ul: 'FORTALEZA', contrato: '240/2024', br: '122', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Ativo', vigencia: '23/09/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_372_2023', ul: 'FORTALEZA', contrato: '372/2023', br: '116;020;222', servico: 'BR Legal', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 500000, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_542_2026', ul: 'FORTALEZA', contrato: '542/2026', br: '116', servico: 'Manutenção - PATO', contratada: 'CCL - Construtora Capital LTDA', situacao: 'Cadastrado', vigencia: '20/01/2030', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_515_2022', ul: 'RUSSAS', contrato: '515/2022', br: '116', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '27/09/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_385_2021', ul: 'RUSSAS', contrato: '385/2021', br: '116;437', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Ativo', vigencia: '09/08/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_413_2021', ul: 'RUSSAS', contrato: '413/2021', br: '304', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '11/08/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_040_2026', ul: 'RUSSAS', contrato: '040/2026', br: '116;122', servico: 'Obra de Emergência', contratada: 'Edro Engenharia LTDA', situacao: 'Ativo', vigencia: '25/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_041_2026', ul: 'RUSSAS', contrato: '041/2026', br: '116', servico: 'Obra de Emergência', contratada: 'Edro Engenharia LTDA', situacao: 'Ativo', vigencia: '10/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_421_2023', ul: 'RUSSAS', contrato: '421/2023', br: '116;304;122;437', servico: 'BR Legal', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 500000, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_331_2026', ul: 'RUSSAS', contrato: '331/2026', br: '116;304', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '19/11/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_508_2024', ul: 'BOA VIAGEM', contrato: '508/2024', br: '226;404', servico: 'Manutenção - PATO', contratada: 'AL Teixeira Pinheira', situacao: 'Ativo', vigencia: '07/01/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_408_2024', ul: 'BOA VIAGEM', contrato: '408/2024', br: '226', servico: 'Manutenção - PATO', contratada: 'CSR - Construções e Serviços Rodoviários Ltda', situacao: 'Ativo', vigencia: '05/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_866_2024', ul: 'BOA VIAGEM', contrato: '866/2024', br: '020', servico: 'Manutenção - PATO', contratada: 'CivilPav Construções', situacao: 'Ativo', vigencia: '16/05/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_634_2024', ul: 'BOA VIAGEM', contrato: '634/2024', br: '020', servico: 'Manutenção - PATO', contratada: 'CSR - Construções e Serviços Rodoviários Ltda', situacao: 'Ativo', vigencia: '25/02/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_666_2025', ul: 'BOA VIAGEM', contrato: '666/2025', br: '020', servico: '', contratada: 'CIVILPAV CONSTRUÇOES LTDA', situacao: 'Ativo', vigencia: '31/03/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_043_2026', ul: 'BOA VIAGEM', contrato: '043/2026', br: '226', servico: 'Obra de Emergência', contratada: 'Edro Engenharia LTDA', situacao: 'Ativo', vigencia: '14/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_420_2023', ul: 'BOA VIAGEM', contrato: '420/2023', br: '020;226;405', servico: 'BR Legal', contratada: 'Consórcio Sinal CE', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 500000, loa: 0, remanejMenos: 0, remanejMais: 0 },
-    { id: 'c_189_2023', ul: 'SMT', contrato: '189/2023', br: 'TODA MALHA', servico: 'Manutenção - Supervisão', contratada: 'Maia Melo', situacao: 'Ativo', vigencia: '27/02/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0 }
+    { id: 'c_397_2024', ul: 'SOBRAL', contrato: '397/2024', br: '222', km: '0,00 ao 2,50;0,00 ao 3,80; 122,90 ao 227,91', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_347_2024', ul: 'SOBRAL', contrato: '347/2024', br: '222;403', km: '404 - 124,70 ao 149,50; 222 - 227,90 ao 347,60', servico: 'Manutenção - PATO', contratada: 'COSAMPA Projetos e Construções', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_404_2023', ul: 'SOBRAL', contrato: '404/2023', br: '222,402,403', km: 'Circunscriçao da UL SOBRAL', servico: 'BR Legal', contratada: 'Consórcio Ceará Via Segura', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_250_2026', ul: 'FORTALEZA', contrato: '250/2026', br: '402;403', km: '402 - 175,70 ao 302,70; 403 - 0,00 ao 6,70 - 0,00 ao 28,20', servico: 'Manutenção - PATO', contratada: 'Vanguarda Construções e Serviçõs de Conservação Viária LTDA', situacao: 'Ativo', vigencia: '29/09/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_175_2025', ul: 'ICÓ', contrato: '175/2025', br: '116;226', km: '116 - 287,90 ao 426,20; 226 - 66,30 ao 77,70 e 29,10 ao 56,90', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Ativo', vigencia: '07/09/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_236_2025', ul: 'ICÓ', contrato: '236/2025', br: '116', km: '116 - 426,20 ao 551,40', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Concluído', vigencia: '05/10/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_235_2025', ul: 'ICÓ', contrato: '235/2025', br: '230', km: '230 - 0,00 ao 6,70 e 19,70 ao 115,90', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '06/10/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_039_2026', ul: 'ICÓ', contrato: '039/2026', br: '116', km: '116 - 528,95 ao 528,98', servico: 'Obra de Emergência', contratada: 'FFX Engenharia e Serviços LTDA', situacao: 'Ativo', vigencia: '24/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_424_2023', ul: 'ICÓ', contrato: '424/2023', br: '116;226;230', km: 'Circunscriçao da UL ICÓ', servico: 'BR Legal', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_688_2022', ul: 'FORTALEZA', contrato: '688/2022', br: '116', km: '116 - 0,00 ao 0,70 e 1,00 ao 54,00', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '04/07/2024', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_505_2024', ul: 'FORTALEZA', contrato: '505/2024', br: '020', km: '020 - 432,90 ao 308,80', servico: 'Manutenção - PATO', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Aguardando', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_092_2024', ul: 'FORTALEZA', contrato: '092/2024', br: '222', km: '223 - 0,00 ao 11,20 e 0,00 ao 3,80 e 0,00 ao 122,20', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_124_2026', ul: 'FORTALEZA', contrato: '124/2026', br: '122', km: '122 - 5,00 ao 155,10', servico: '', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '25/08/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_240_2024', ul: 'FORTALEZA', contrato: '240/2024', br: '122', km: '123 - 5,00 ao 98,00', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Ativo', vigencia: '23/09/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_372_2023', ul: 'FORTALEZA', contrato: '372/2023', br: '116;020;222', km: 'Circunscriçao da UL FORTALEZA', servico: 'BR Legal', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_542_2026', ul: 'FORTALEZA', contrato: '542/2026', br: '116', km: '116 - 14,20 ao 114,410 e 0,00 ao 0,70 e 0,00 ao 2,30', servico: 'Manutenção - PATO', contratada: 'CCL - Construtora Capital LTDA', situacao: 'Cadastrado', vigencia: '20/01/2030', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_515_2022', ul: 'RUSSAS', contrato: '515/2022', br: '116', km: '116 - 0,00 ao 2,30 (Chorozinho) e 54,00 ao 161,40', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '27/09/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_385_2021', ul: 'RUSSAS', contrato: '385/2021', br: '116;437', km: '437 - 0,00 ao 48,50; 116 - 161,90 ao 287,90', servico: 'Manutenção - PATO', contratada: 'LCM Construção e Comércio S/A', situacao: 'Ativo', vigencia: '09/08/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_413_2021', ul: 'RUSSAS', contrato: '413/2021', br: '304', km: '304 - 0,00 ao 100,80', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '11/08/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_040_2026', ul: 'RUSSAS', contrato: '040/2026', br: '116;122', km: 'ENTR BR-116/122  53,43 ao 53,47', servico: 'Obra de Emergência', contratada: 'Edro Engenharia LTDA', situacao: 'Ativo', vigencia: '25/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_041_2026', ul: 'RUSSAS', contrato: '041/2026', br: '116', km: '116 - 1,30 ao 2,30', servico: 'Obra de Emergência', contratada: 'Edro Engenharia LTDA', situacao: 'Ativo', vigencia: '10/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_421_2023', ul: 'RUSSAS', contrato: '421/2023', br: '116;304;122;437', km: 'Circunscriçao da UL RUSSAS', servico: 'BR Legal', contratada: 'ESSE Eng. Sinal. Serv. Especiais Ltda', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_331_2026', ul: 'RUSSAS', contrato: '331/2026', br: '116;304', km: '304 - 0,00 ao 24,96 e 24,96 ao 25,15 e 25,15 ao 69,75 e 69,75 ao 79,50 e 79,50 ao 100,80', servico: 'Manutenção - PATO', contratada: 'Insttale Engenharia Ltda', situacao: 'Ativo', vigencia: '19/11/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_508_2024', ul: 'BOA VIAGEM', contrato: '508/2024', br: '226;404', km: '226 - 255,80 ao 339,70 e 348,70 ao 375,70; 404 - 73,20 ao 109,10; 0,00 ao 41,20', servico: 'Manutenção - PATO', contratada: 'AL Teixeira Pinheira', situacao: 'Ativo', vigencia: '07/01/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_408_2024', ul: 'BOA VIAGEM', contrato: '408/2024', br: '226', km: '226 - 116,10 ao 255,80', servico: 'Manutenção - PATO', contratada: 'CSR - Construções e Serviços Rodoviários Ltda', situacao: 'Ativo', vigencia: '05/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_866_2024', ul: 'BOA VIAGEM', contrato: '866/2024', br: '020', km: '020 - 0,00 ao 103,20', servico: 'Manutenção - PATO', contratada: 'CivilPav Construções', situacao: 'Ativo', vigencia: '16/05/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_634_2024', ul: 'BOA VIAGEM', contrato: '634/2024', br: '020', km: '020 - 103,20 ao 203,20', servico: 'Manutenção - PATO', contratada: 'CSR - Construções e Serviços Rodoviários Ltda', situacao: 'Ativo', vigencia: '25/02/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_666_2025', ul: 'BOA VIAGEM', contrato: '666/2025', br: '020', km: '020 - 203,20 ao 308,80', servico: '', contratada: 'CIVILPAV CONSTRUÇOES LTDA', situacao: 'Ativo', vigencia: '31/03/2029', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_043_2026', ul: 'BOA VIAGEM', contrato: '043/2026', br: '226', km: '226 - 114,80 ao 139,80', servico: 'Obra de Emergência', contratada: 'Edro Engenharia LTDA', situacao: 'Ativo', vigencia: '14/11/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_420_2023', ul: 'BOA VIAGEM', contrato: '420/2023', br: '020;226;405', km: 'Circunscriçao da UL BOA VIAGEM', servico: 'BR Legal', contratada: 'Consórcio Sinal CE', situacao: 'Ativo', vigencia: '01/12/2026', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 },
+    { id: 'c_189_2023', ul: 'SMT', contrato: '189/2023', br: 'TODA MALHA', km: 'Jurisdição da SR/CE', servico: 'Manutenção - Supervisão', contratada: 'Maia Melo', situacao: 'Ativo', vigencia: '27/02/2027', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0 }
 ];
 
 let dados = [], dadosFiltrados = [], modoEdicao = false, dadosCarregados = false, salvando = false, debounceTimers = {};
@@ -505,6 +506,7 @@ function processarArquivo(file) {
                 dadosExtraidos.push({
                     linha: excelRow, contrato, ul: ulDefinida,
                     br: String(linha[XLSX_CONFIG.colunaBR] || '').trim(),
+                    km: String(linha[XLSX_CONFIG.colunaKM] || '').trim(), // <-- KM ADICIONADO AQUI
                     servico: String(linha[XLSX_CONFIG.colunaServico] || '').trim(),
                     contratada: String(linha[XLSX_CONFIG.colunaContratada] || '').trim(),
                     vigencia: parseDataExcel(linha[XLSX_CONFIG.colunaVigencia]),
@@ -580,16 +582,24 @@ function processarUpload() {
             const molde = DADOS_BASE.find(d => limparNomeContrato(d.contrato) === nomeLimpo);
             if (molde) { contratoSis = { ...molde, mensal: {} }; criadosBase.push(item.contrato); }
             else {
-                contratoSis = { id: 'c_' + Date.now() + '_' + criadosSemDados.length, ul: 'A DEFINIR', contrato: item.contrato, br: '', servico: '', contratada: '', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, rap: 0, loa: 0, remanejMenos: 0, remanejMais: 0, mensal: {} };
+                contratoSis = { id: 'c_' + Date.now() + '_' + criadosSemDados.length, ul: 'A DEFINIR', contrato: item.contrato, br: '', km: '', servico: '', contratada: '', situacao: 'Ativo', vigencia: '', ultimaMedLancada: 0, mesUltimaMedLancada: '', ultimaMedPaga: 0, mesUltimaMedPaga: '', saldoEmpenho: 0, mensal: {} };
                 criadosSemDados.push(item.contrato);
             }
             dados.push(contratoSis);
         }
 
         Object.assign(contratoSis, {
-            ul: item.ul || contratoSis.ul || 'A DEFINIR', br: item.br || contratoSis.br || '', servico: item.servico || contratoSis.servico || '', contratada: item.contratada || contratoSis.contratada || '',
-            vigencia: String(item.vigencia || '').trim(), ultimaMedLancada: parseInt(item.ultimaMedLancada) || 0, mesUltimaMedLancada: String(item.mesUltimaMedLancada || '').trim(),
-            ultimaMedPaga: parseInt(item.ultimaMedPaga) || 0, mesUltimaMedPaga: String(item.mesUltimaMedPaga || '').trim(), saldoEmpenho: parseFloat(item.saldoEmpenho) || 0
+            ul: item.ul || contratoSis.ul || 'A DEFINIR', 
+            br: item.br || contratoSis.br || '', 
+            km: item.km || contratoSis.km || '', // <-- KM ADICIONADO AQUI
+            servico: item.servico || contratoSis.servico || '', 
+            contratada: item.contratada || contratoSis.contratada || '',
+            vigencia: String(item.vigencia || '').trim(), 
+            ultimaMedLancada: parseInt(item.ultimaMedLancada) || 0, 
+            mesUltimaMedLancada: String(item.mesUltimaMedLancada || '').trim(),
+            ultimaMedPaga: parseInt(item.ultimaMedPaga) || 0, 
+            mesUltimaMedPaga: String(item.mesUltimaMedPaga || '').trim(), 
+            saldoEmpenho: parseFloat(item.saldoEmpenho) || 0
         });
 
         if (!contratoSis.mensal) contratoSis.mensal = {};
@@ -650,7 +660,7 @@ function confirmarExclusao(id) {
 function fecharModal() { document.getElementById('modalConfirm').classList.remove('open'); }
 
 function abrirModalAdicionar() {
-    ['addUL', 'addContrato', 'addBR', 'addServico', 'addContratada', 'addVigencia', 'addUltimaMedLancada', 'addMesUltimaMedLancada', 'addUltimaMedPaga', 'addMesUltimaMedPaga', 'addSaldoEmpenho', 'addRap', 'addLoa', 'addRemanejMenos', 'addRemanejMais'].forEach(id => document.getElementById(id).value = '');
+    ['addUL', 'addContrato', 'addBR', 'addKM', 'addServico', 'addContratada', 'addVigencia', 'addUltimaMedLancada', 'addMesUltimaMedLancada', 'addUltimaMedPaga', 'addMesUltimaMedPaga', 'addSaldoEmpenho'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('addSituacao').value = 'Ativo';
     document.getElementById('modalAdicionar').classList.add('open');
 }
@@ -661,12 +671,17 @@ function confirmarAdicionar() {
 
     const novo = {
         id: 'c_' + Date.now(), ul, contrato,
-        br: document.getElementById('addBR').value.trim(), servico: document.getElementById('addServico').value.trim(), contratada: document.getElementById('addContratada').value.trim(),
-        situacao: document.getElementById('addSituacao').value, vigencia: document.getElementById('addVigencia').value.trim(),
-        ultimaMedLancada: parseInt(document.getElementById('addUltimaMedLancada').value) || 0, mesUltimaMedLancada: document.getElementById('addMesUltimaMedLancada').value.trim(),
-        ultimaMedPaga: parseInt(document.getElementById('addUltimaMedPaga').value) || 0, mesUltimaMedPaga: document.getElementById('addMesUltimaMedPaga').value.trim(),
-        saldoEmpenho: parseNumero(document.getElementById('addSaldoEmpenho').value), rap: parseNumero(document.getElementById('addRap').value), loa: parseNumero(document.getElementById('addLoa').value),
-        remanejMenos: parseNumero(document.getElementById('addRemanejMenos').value), remanejMais: parseNumero(document.getElementById('addRemanejMais').value),
+        br: document.getElementById('addBR').value.trim(), 
+        km: document.getElementById('addKM').value.trim(),
+        servico: document.getElementById('addServico').value.trim(), 
+        contratada: document.getElementById('addContratada').value.trim(),
+        situacao: document.getElementById('addSituacao').value, 
+        vigencia: document.getElementById('addVigencia').value.trim(),
+        ultimaMedLancada: parseInt(document.getElementById('addUltimaMedLancada').value) || 0, 
+        mesUltimaMedLancada: document.getElementById('addMesUltimaMedLancada').value.trim(),
+        ultimaMedPaga: parseInt(document.getElementById('addUltimaMedPaga').value) || 0, 
+        mesUltimaMedPaga: document.getElementById('addMesUltimaMedPaga').value.trim(),
+        saldoEmpenho: parseNumero(document.getElementById('addSaldoEmpenho').value), 
         mensal: MESES.reduce((acc, m) => { acc[m] = 0; return acc; }, {})
     };
 
@@ -713,9 +728,7 @@ function atualizarCardsUL() {
         if (cs.length === 0) return;
 
         const tMen = cs.reduce((a, d) => a + MESES.reduce((s, m) => s + ((d.mensal && d.mensal[m]) || 0), 0), 0);
-        const tLoa = cs.reduce((a, d) => a + (d.loa || 0), 0);
         const tSal = cs.reduce((a, d) => a + (d.saldoEmpenho || 0), 0);
-        const tRap = cs.reduce((a, d) => a + (d.rap || 0), 0);
 
         const card = document.createElement('div');
         card.className = `ul-card ${ulAtivaFiltro === u ? 'ativo' : ''}`;
@@ -724,8 +737,6 @@ function atualizarCardsUL() {
             <div class="ul-card-title">${u} <span>${cs.length} contratos</span></div>
             <div class="ul-card-info">
                 <div class="ul-info-row"><span>Total Mensal:</span><strong>${formatarMoedaCurta(tMen)}</strong></div>
-                <div class="ul-info-row"><span>LOA:</span><strong>${formatarMoedaCurta(tLoa)}</strong></div>
-                <div class="ul-info-row"><span>RAP:</span><strong>${formatarMoedaCurta(tRap)}</strong></div>
             </div>
             <div class="ul-info-saldo"><div class="label">Saldo Empenho</div><div class="value">${formatarMoedaCurta(tSal)}</div></div>`;
         grid.appendChild(card);
@@ -754,11 +765,10 @@ function limparFiltros() {
 
 function atualizarKPI() {
     const b = dadosFiltrados;
-    const tLoa = b.reduce((a, d) => a + (d.loa || 0), 0), tRap = b.reduce((a, d) => a + (d.rap || 0), 0);
     const tSal = b.reduce((a, d) => a + (d.saldoEmpenho || 0), 0), tMen = b.reduce((a, d) => a + MESES.reduce((s, m) => s + ((d.mensal && d.mensal[m]) || 0), 0), 0);
     document.getElementById('totalSelecionado').innerHTML = `
-        <span>📋 Contratos: <strong>${b.length}</strong></span> <span>💵 LOA: <strong>${formatarMoeda(tLoa)}</strong></span>
-        <span>💰 RAP: <strong>${formatarMoeda(tRap)}</strong></span> <span>📅 Mensal: <strong>${formatarMoeda(tMen)}</strong></span>
+        <span>📋 Contratos: <strong>${b.length}</strong></span> 
+        <span>📅 Mensal: <strong>${formatarMoeda(tMen)}</strong></span>
         <span style="color:#4ade80;">🛡️ Saldo Empenho: <strong>${formatarMoeda(tSal)}</strong></span>`;
 }
 
@@ -766,7 +776,7 @@ function renderizarTabelaContratos() {
     const tbody = document.getElementById('tabelaContratosBody');
     tbody.innerHTML = '';
     if (dadosFiltrados.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="18" style="text-align:center;padding:20px;">Nenhum registro</td></tr>'; atualizarBotaoExclusao(); return;
+        tbody.innerHTML = '<tr><td colspan="15" style="text-align:center;padding:20px;">Nenhum registro</td></tr>'; atualizarBotaoExclusao(); return;
     }
 
     dadosFiltrados.forEach(d => {
@@ -775,32 +785,27 @@ function renderizarTabelaContratos() {
 
         row.insertCell(0).innerHTML = `<input type="checkbox" class="checkbox-contrato" value="${d.id}" ${selecionadosIds.has(d.id) ? 'checked' : ''} onchange="toggleSelecaoContrato('${d.id}', this.checked)">`;
         row.insertCell(1).innerHTML = d.ul || '-'; row.insertCell(2).innerHTML = d.contrato || '-';
-        row.insertCell(3).innerHTML = d.br || '-'; row.insertCell(4).innerHTML = d.servico || '-';
-        row.insertCell(5).innerHTML = d.contratada || '-';
+        row.insertCell(3).innerHTML = d.br || '-'; row.insertCell(4).innerHTML = d.km || '-';
+        row.insertCell(5).innerHTML = d.servico || '-'; row.insertCell(6).innerHTML = d.contratada || '-';
 
-        const cSit = row.insertCell(6);
+        const cSit = row.insertCell(7);
         if (modoEdicao) {
             cSit.innerHTML = `<select onchange="atualizarCampo('${d.id}', 'situacao', this.value)"><option value="Ativo" ${d.situacao === 'Ativo' ? 'selected' : ''}>Ativo</option><option value="Concluído" ${d.situacao === 'Concluído' ? 'selected' : ''}>Concluído</option><option value="Aguardando" ${(d.situacao || '').includes('Aguardando') ? 'selected' : ''}>Aguardando</option><option value="Cancelado" ${d.situacao === 'Cancelado' ? 'selected' : ''}>Cancelado</option><option value="" ${!d.situacao ? 'selected' : ''}>-</option></select>`;
         } else {
             cSit.innerHTML = `<span class="badge ${getBadgeClass(d.situacao)}">${d.situacao || 'N/I'}</span>`;
         }
 
-        row.insertCell(7).innerHTML = `<input type="text" value="${d.vigencia || ''}" ${readonly} class="${editClass}" onchange="atualizarCampo('${d.id}','vigencia',this.value)" style="width:90px;" placeholder="DD/MM/AAAA">`;
-        row.insertCell(8).innerHTML = `<input type="number" value="${d.ultimaMedLancada || 0}" ${readonly} class="${editClass}" onchange="atualizarCampoNumInt('${d.id}','ultimaMedLancada',this.value)" style="width:70px;">`;
-        row.insertCell(9).innerHTML = `<input type="text" value="${d.mesUltimaMedLancada || ''}" ${readonly} class="${editClass}" onchange="atualizarCampo('${d.id}','mesUltimaMedLancada',this.value)" style="width:90px;" placeholder="jun/26">`;
-        row.insertCell(10).innerHTML = `<input type="number" value="${d.ultimaMedPaga || 0}" ${readonly} class="${editClass}" onchange="atualizarCampoNumInt('${d.id}','ultimaMedPaga',this.value)" style="width:70px;">`;
-        row.insertCell(11).innerHTML = `<input type="text" value="${d.mesUltimaMedPaga || ''}" ${readonly} class="${editClass}" onchange="atualizarCampo('${d.id}','mesUltimaMedPaga',this.value)" style="width:90px;" placeholder="mai/26">`;
+        row.insertCell(8).innerHTML = `<input type="text" value="${d.vigencia || ''}" ${readonly} class="${editClass}" onchange="atualizarCampo('${d.id}','vigencia',this.value)" style="width:90px;" placeholder="DD/MM/AAAA">`;
+        row.insertCell(9).innerHTML = `<input type="number" value="${d.ultimaMedLancada || 0}" ${readonly} class="${editClass}" onchange="atualizarCampoNumInt('${d.id}','ultimaMedLancada',this.value)" style="width:70px;">`;
+        row.insertCell(10).innerHTML = `<input type="text" value="${d.mesUltimaMedLancada || ''}" ${readonly} class="${editClass}" onchange="atualizarCampo('${d.id}','mesUltimaMedLancada',this.value)" style="width:90px;" placeholder="jun/26">`;
+        row.insertCell(11).innerHTML = `<input type="number" value="${d.ultimaMedPaga || 0}" ${readonly} class="${editClass}" onchange="atualizarCampoNumInt('${d.id}','ultimaMedPaga',this.value)" style="width:70px;">`;
+        row.insertCell(12).innerHTML = `<input type="text" value="${d.mesUltimaMedPaga || ''}" ${readonly} class="${editClass}" onchange="atualizarCampo('${d.id}','mesUltimaMedPaga',this.value)" style="width:90px;" placeholder="mai/26">`;
 
-        const cSal = row.insertCell(12);
+        const cSal = row.insertCell(13);
         cSal.style.background = '#e8f5e9'; cSal.style.fontWeight = 'bold'; cSal.style.color = '#1b5e20';
         cSal.innerHTML = `<input type="text" value="${formatarNumeroInput(d.saldoEmpenho)}" ${readonly} class="${editClass}" onchange="atualizarCampoNum('${d.id}','saldoEmpenho',this.value)" style="width:110px; font-weight:bold; color:#1b5e20; border-color:#81c784;">`;
 
-        row.insertCell(13).innerHTML = `<input type="text" value="${formatarNumeroInput(d.rap)}" ${readonly} class="${editClass}" onchange="atualizarCampoNum('${d.id}','rap',this.value)" style="width:100px;">`;
-        row.insertCell(14).innerHTML = `<input type="text" value="${formatarNumeroInput(d.loa)}" ${readonly} class="${editClass}" onchange="atualizarCampoNum('${d.id}','loa',this.value)" style="width:110px;">`;
-        row.insertCell(15).innerHTML = `<input type="text" value="${formatarNumeroInput(d.remanejMenos)}" ${readonly} class="${editClass}" onchange="atualizarCampoNum('${d.id}','remanejMenos',this.value)" style="width:100px;">`;
-        row.insertCell(16).innerHTML = `<input type="text" value="${formatarNumeroInput(d.remanejMais)}" ${readonly} class="${editClass}" onchange="atualizarCampoNum('${d.id}','remanejMais',this.value)" style="width:100px;">`;
-
-        row.insertCell(17).innerHTML = `<button class="acao-btn acao-btn-view" onclick="verDetalhes('${d.id}')" title="Ver">👁️</button><button class="acao-btn acao-btn-del" onclick="excluirContrato('${d.id}')" title="Excluir">🗑️</button>`;
+        row.insertCell(14).innerHTML = `<button class="acao-btn acao-btn-view" onclick="verDetalhes('${d.id}')" title="Ver">👁️</button><button class="acao-btn acao-btn-del" onclick="excluirContrato('${d.id}')" title="Excluir">🗑️</button>`;
     });
 
     atualizarBotaoExclusao();
@@ -851,7 +856,7 @@ function atualizarMensal(id, mes, valor) {
 function verDetalhes(id) {
     const item = dados.find(d => d.id === id); if (!item) return;
     const total = MESES.reduce((s, m) => s + ((item.mensal && item.mensal[m]) || 0), 0);
-    alert(`📋 CONTRATO: ${item.contrato}\n🏢 UL: ${item.ul}\n🛣️ BR: ${item.br}\n📝 Serviço: ${item.servico}\n🏗️ Contratada: ${item.contratada}\n📌 Situação: ${item.situacao || 'N/I'}\n📅 Vigência: ${item.vigencia || '-'}\n🔢 Últ. Med. Lançada: ${item.ultimaMedLancada || '-'} (${item.mesUltimaMedLancada || '-'})\n🔢 Últ. Med. Paga: ${item.ultimaMedPaga || '-'} (${item.mesUltimaMedPaga || '-'})\n🛡️ Saldo Empenho: ${formatarMoeda(item.saldoEmpenho)}\n💰 RAP: ${formatarMoeda(item.rap)}\n💰 LOA: ${formatarMoeda(item.loa)}\n📊 Total Mensal: ${formatarMoeda(total)}`);
+    alert(`📋 CONTRATO: ${item.contrato}\n🏢 UL: ${item.ul}\n🛣️ BR: ${item.br}\n📍 KM: ${item.km || '-'}\n📝 Serviço: ${item.servico}\n🏗️ Contratada: ${item.contratada}\n📌 Situação: ${item.situacao || 'N/I'}\n📅 Vigência: ${item.vigencia || '-'}\n🔢 Últ. Med. Lançada: ${item.ultimaMedLancada || '-'} (${item.mesUltimaMedLancada || '-'})\n🔢 Últ. Med. Paga: ${item.ultimaMedPaga || '-'} (${item.mesUltimaMedPaga || '-'})\n🛡️ Saldo Empenho: ${formatarMoeda(item.saldoEmpenho)}\n📊 Total Mensal: ${formatarMoeda(total)}`);
 }
 
 function resetarDados() {
